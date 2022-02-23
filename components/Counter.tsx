@@ -1,7 +1,7 @@
 import { animate } from 'framer-motion';
 import { memo, useEffect, useRef } from 'react';
 
-export default function Counter({ from, to }: { from: number; to: number }) {
+function Counter({ from, to }: { from: number; to: number }) {
   const nodeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -21,3 +21,5 @@ export default function Counter({ from, to }: { from: number; to: number }) {
 
   return <div ref={nodeRef} />;
 }
+
+export default memo(Counter);
