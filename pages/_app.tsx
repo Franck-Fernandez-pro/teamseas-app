@@ -3,6 +3,8 @@ import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import '@fontsource/montserrat/700.css';
 import '@fontsource/montserrat/400.css';
 import '@fontsource/montserrat/300.css';
+import { ApolloProvider } from '@apollo/client';
+import client from '../apollo-client';
 
 const theme = extendTheme({
   fonts: {
@@ -13,9 +15,11 @@ const theme = extendTheme({
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider theme={theme}>
-      <Component {...pageProps} />
-    </ChakraProvider>
+    <ApolloProvider client={client}>
+      <ChakraProvider theme={theme}>
+        <Component {...pageProps} />
+      </ChakraProvider>
+    </ApolloProvider>
   );
 }
 

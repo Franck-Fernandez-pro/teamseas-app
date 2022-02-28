@@ -1,9 +1,39 @@
+import { gql } from '@apollo/client';
 import { Box, Grid, Heading, VStack, Text } from '@chakra-ui/react';
-import type { NextPage } from 'next';
+import type { GetServerSideProps, GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
+import client from '../apollo-client';
+import Counter from '../components/Counter';
 
-const Home: NextPage = () => {
+const TOTAL_DONATIONS_QUERY = gql`
+  query Donations {
+    totalDonations
+  }
+`;
+
+// ! subscription doesn't work
+// const TOTAL_UPDATED_SUBSCRIPTION = gql`
+//   subscription TotalUpdatedSubscription {
+//     totalUpdated {
+//       total
+//     }
+//   }
+// `;
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const { data } = await client.query({ query: TOTAL_DONATIONS_QUERY });
+
+  return {
+    props: {
+      totalDonations: data.totalDonations,
+    },
+  };
+};
+
+const Home: NextPage = ({ totalDonations }) => {
+  console.log('🚀 ~ totalDonations', totalDonations);
+
   return (
     <main>
       <Head>
@@ -28,6 +58,10 @@ const Home: NextPage = () => {
               The team is growing everyday and scoring wins for the planet.
               Plant with us and track our progress
             </Text>
+
+            <Heading as="h2" size="4xl">
+              <Counter from={0} to={totalDonations} />
+            </Heading>
           </VStack>
         </Grid>
       </Box>
