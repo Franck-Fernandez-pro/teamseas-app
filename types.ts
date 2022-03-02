@@ -8,3 +8,7 @@ export interface Donation {
   message?: string;
   createdAt: Date;
 }
+
+export interface Donations {
+  donations: Donation[];
+}
