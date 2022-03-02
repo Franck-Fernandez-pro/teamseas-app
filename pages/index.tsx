@@ -8,7 +8,7 @@ import type {
 import Head from 'next/head';
 import Image from 'next/image';
 import client from '../apollo-client';
-import Counter from '../components/Counter';
+import Counter from '../components/Donation/Counter';
 import LeaderBoard from '../components/LeaderBoard/LeaderBoard';
 
 const TOTAL_DONATIONS_QUERY = gql`
