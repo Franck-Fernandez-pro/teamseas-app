@@ -1,13 +1,19 @@
 import { Key, memo, useState } from 'react';
-import { Box, Heading, VStack } from '@chakra-ui/react';
+import {
+  Box,
+  Heading,
+  Radio,
+  RadioGroup,
+  Stack,
+  VStack,
+} from '@chakra-ui/react';
 import LeaderBoardItem from './LeaderBoardItem';
 import { gql, useQuery } from '@apollo/client';
-import { Donation, Donations } from '../../types';
+import { Donation, Donations, SortOrder } from '../../types';
 
 const DONATIONS_QUERY = gql`
   query Donations($orderBy: OrderByParams) {
     donations(orderBy: $orderBy) {
-      id
       count
       displayName
       team
@@ -20,7 +26,7 @@ const DONATIONS_QUERY = gql`
 interface QueryVariable {
   orderBy: {
     field: string;
-    direction: string;
+    direction: SortOrder;
   };
 }
 
@@ -34,7 +40,7 @@ function LeaderBoard({}: Props) {
       variables: {
         orderBy: {
           field,
-          direction: 'asc',
+          direction: SortOrder.desc,
         },
       },
     }
@@ -46,6 +52,13 @@ function LeaderBoard({}: Props) {
   return (
     <Box w="100%">
       <Heading>LeaderBoard</Heading>
+
+      <RadioGroup onChange={setField} value={field}>
+        <Stack direction="row">
+          <Radio value="createdAt">Most recent</Radio>
+          <Radio value="count">Most Pounds</Radio>
+        </Stack>
+      </RadioGroup>
 
       <VStack spacing={4}>
         {data?.donations &&
