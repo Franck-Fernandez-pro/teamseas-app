@@ -1,10 +1,15 @@
 import { gql } from '@apollo/client';
 import { Box, Grid, Heading, VStack, Text } from '@chakra-ui/react';
-import type { GetServerSideProps, GetStaticProps, NextPage } from 'next';
+import type {
+  GetServerSideProps,
+  InferGetServerSidePropsType,
+  NextPage,
+} from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import client from '../apollo-client';
 import Counter from '../components/Counter';
+import LeaderBoard from '../components/LeaderBoard/LeaderBoard';
 
 const TOTAL_DONATIONS_QUERY = gql`
   query Donations {
@@ -31,7 +36,9 @@ export const getServerSideProps: GetServerSideProps = async () => {
   };
 };
 
-const Home: NextPage = ({ totalDonations }) => {
+const Home: NextPage = ({
+  totalDonations,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   console.log('🚀 ~ totalDonations', totalDonations);
 
   return (
@@ -62,6 +69,8 @@ const Home: NextPage = ({ totalDonations }) => {
             <Heading as="h2" size="4xl">
               <Counter from={0} to={totalDonations} />
             </Heading>
+
+            <LeaderBoard />
           </VStack>
         </Grid>
       </Box>
