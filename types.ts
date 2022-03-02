@@ -12,3 +12,8 @@ export interface Donation {
 export interface Donations {
   donations: Donation[];
 }
+
+export enum SortOrder {
+  asc = 'asc',
+  desc = 'desc',
+}
