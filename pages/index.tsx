@@ -9,6 +9,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import client from '../apollo-client';
 import Counter from '../components/Donation/Counter';
+import DonationWizard from '../components/Donation/DonationWizard';
 import LeaderBoard from '../components/LeaderBoard/LeaderBoard';
 
 const TOTAL_DONATIONS_QUERY = gql`
@@ -68,6 +69,7 @@ const Home: NextPage = ({
               <Counter from={0} to={totalDonations} />
             </Heading>
 
+            <DonationWizard />
             <LeaderBoard />
           </VStack>
         </Grid>
