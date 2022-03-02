@@ -39,8 +39,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
 const Home: NextPage = ({
   totalDonations,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  console.log('🚀 ~ totalDonations', totalDonations);
-
   return (
     <main>
       <Head>

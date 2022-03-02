@@ -51,16 +51,16 @@ function LeaderBoard({}: Props) {
 
   return (
     <Box w="100%">
-      <Heading>LeaderBoard</Heading>
-
-      <RadioGroup onChange={setField} value={field}>
-        <Stack direction="row">
-          <Radio value="createdAt">Most recent</Radio>
-          <Radio value="count">Most Pounds</Radio>
-        </Stack>
-      </RadioGroup>
-
       <VStack spacing={4}>
+        <Heading>LeaderBoard</Heading>
+
+        <RadioGroup onChange={setField} value={field}>
+          <Stack direction="row">
+            <Radio value="createdAt">Most recent</Radio>
+            <Radio value="count">Most Pounds</Radio>
+          </Stack>
+        </RadioGroup>
+
         {data?.donations &&
           data.donations.map((donation: Donation, idx: Key) => (
             <LeaderBoardItem key={idx} donation={donation} />
