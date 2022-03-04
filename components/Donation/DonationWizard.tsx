@@ -1,19 +1,31 @@
-import { Box, Button, VStack } from '@chakra-ui/react';
-import { memo, useCallback, useMemo, useState } from 'react';
+import { Box, Button } from '@chakra-ui/react';
+import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import CountSelection from './CountSelection';
 
 interface Props {}
 
 function DonationWizard({}: Props) {
   const [step, setStep] = useState<number>(0);
+  const [donationDetails, setDonationDetails] = useState({
+    count: 20,
+  });
 
-  const pages = useMemo(
-    () => [<div key={0}>Page 1</div>, <div key={1}>Page 2</div>],
-    []
-  );
+  const next = useCallback((value: any = {}) => {
+    setDonationDetails((d) => ({ ...d, ...value }));
+    setStep((s) => (s >= pages.length - 1 ? pages.length - 1 : s + 1));
+  }, []);
 
-  const next = useCallback(
-    () => setStep((s) => (s >= pages.length - 1 ? pages.length - 1 : s + 1)),
-    [pages]
+  const pages: ReactJSXElement[] = useMemo(
+    () => [
+      <CountSelection
+        key={0}
+        next={next}
+        initialCount={donationDetails.count}
+      />,
+      <div key={1}>Page 2</div>,
+    ],
+    [donationDetails.count, next]
   );
 
   const prev = useCallback(() => setStep((s) => (s <= 0 ? 0 : s - 1)), []);
@@ -24,32 +36,20 @@ function DonationWizard({}: Props) {
       p={8}
       borderRadius="xl"
       minW="sm"
-      bgColor="wheat"
-      color="gray.800"
+      bgColor="blue.700"
+      color="gray.200"
     >
       {pages[step]}
-
-      <VStack spacing={2}>
-        <Button
-          isFullWidth
-          colorScheme="blue"
-          size="lg"
-          borderRadius="full"
-          onClick={next}
-        >
-          Next
-        </Button>
-        <Button
-          isFullWidth
-          colorScheme="blue"
-          variant="ghost"
-          size="lg"
-          borderRadius="full"
-          onClick={prev}
-        >
-          Previous
-        </Button>
-      </VStack>
+      <Button
+        isFullWidth
+        colorScheme="blue"
+        variant="ghost"
+        size="lg"
+        borderRadius="full"
+        onClick={prev}
+      >
+        Previous
+      </Button>
     </Box>
   );
 }
